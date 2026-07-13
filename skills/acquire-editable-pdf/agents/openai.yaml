@@ -1,0 +1,7 @@
+interface:
+  display_name: "Acquire Editable PDF"
+  short_description: "Download or convert PDFs into editable files"
+  default_prompt: "Use $acquire-editable-pdf to obtain this PDF and create the appropriate editable version."
+
+policy:
+  allow_implicit_invocation: false
