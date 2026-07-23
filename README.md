@@ -1,28 +1,24 @@
-# Codex Skills
+# Make PDF Editable
 
-Reusable skills for Codex.
+A reusable, security-hardened Codex skill for turning PDFs into the kind of editable document the task requires.
 
-## Included skill
+## Capabilities
 
-### acquire-editable-pdf
-
-Obtain a PDF from an authorized website, browser session, direct URL, or local computer and create the appropriate editable derivative while preserving the source.
-
-Supported outcomes:
-
-- Searchable PDFs with an OCR text layer
-- Fillable PDFs with interactive form fields
-- Content-editable DOCX or ODT masters, with optional PDF export
-
-The workflow includes source preservation, output verification, URL and redirect validation, sandboxed processing of untrusted PDFs, and safeguards against active PDF content.
+- Make scanned PDFs searchable with OCR while preserving page appearance.
+- Preserve, repair, or add fillable PDF form fields.
+- Convert PDF content into an editable DOCX or ODT master and optionally export a new PDF.
+- Obtain authorized PDFs from local files, direct URLs, or authenticated browser sessions.
+- Preserve the source and verify output visually and functionally.
 
 ## Install
 
-Copy the skill directory into your Codex skills directory:
+Clone the repository and copy the skill files into your Codex skills directory:
 
 ```bash
-mkdir -p ~/.codex/skills
-cp -R skills/acquire-editable-pdf ~/.codex/skills/
+git clone https://github.com/jlstacks/make-pdf-editable.git
+mkdir -p ~/.codex/skills/make-pdf-editable
+cp make-pdf-editable/SKILL.md ~/.codex/skills/make-pdf-editable/
+cp -R make-pdf-editable/agents make-pdf-editable/references ~/.codex/skills/make-pdf-editable/
 ```
 
 Start a new Codex task after installation so the skill can be discovered.
@@ -32,15 +28,15 @@ Start a new Codex task after installation so the skill can be discovered.
 Invoke the skill explicitly:
 
 ```text
-Use $acquire-editable-pdf to make /path/to/document.pdf searchable with OCR.
+Use $make-pdf-editable to make /path/to/document.pdf searchable with OCR.
 ```
 
 ```text
-Use $acquire-editable-pdf to turn this PDF into a fillable form.
+Use $make-pdf-editable to turn this PDF into a fillable form.
 ```
 
 ```text
-Use $acquire-editable-pdf to convert this PDF into an editable Word document while preserving its layout.
+Use $make-pdf-editable to convert this PDF into an editable Word document while preserving its layout.
 ```
 
 For authenticated websites, sign in normally using the available browser session, then ask the skill to use the open page. The skill does not bypass authentication, access restrictions, document permissions, DRM, paywalls, or CAPTCHAs.
@@ -48,12 +44,14 @@ For authenticated websites, sign in normally using the available browser session
 ## Structure
 
 ```text
-skills/acquire-editable-pdf/
+make-pdf-editable/
 ├── SKILL.md
 ├── agents/
 │   └── openai.yaml
-└── references/
-    └── conversion-playbook.md
+├── references/
+│   └── conversion-playbook.md
+├── README.md
+└── LICENSE
 ```
 
 ## Privacy and security
