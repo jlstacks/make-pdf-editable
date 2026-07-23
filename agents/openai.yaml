@@ -1,0 +1,7 @@
+interface:
+  display_name: "Make PDF Editable"
+  short_description: "Make PDFs searchable, fillable, or editable"
+  default_prompt: "Use $make-pdf-editable to create the appropriate editable version of this PDF."
+
+policy:
+  allow_implicit_invocation: false
