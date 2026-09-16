@@ -1,6 +1,17 @@
 # Make PDF Editable
 
-A reusable, security-hardened Codex skill for turning PDFs into the kind of editable document the task requires.
+A reusable, security-hardened Codex skill for converting PDFs into the editable format a task actually requires while preserving the original document and applying explicit safety controls.
+
+The project demonstrates structured AI-agent workflow design for document transformation, including task interpretation, tool selection, source preservation, security boundaries, and output verification.
+
+## What it demonstrates
+
+- Reusable Codex skill design and structured agent instructions
+- Multi-step document transformation workflows
+- Security-conscious handling of files, URLs, metadata, and authenticated sessions
+- Explicit separation between source preservation and generated output
+- Visual and functional verification requirements
+- Guardrails for credentials, permissions, external services, and untrusted document content
 
 ## Capabilities
 
@@ -53,6 +64,15 @@ make-pdf-editable/
 ├── README.md
 └── LICENSE
 ```
+
+## Design principles
+
+The skill is built around four requirements:
+
+1. Preserve the original source
+2. Choose the least destructive transformation that satisfies the task
+3. Treat documents and external content as untrusted input
+4. Verify the resulting document visually and functionally
 
 ## Privacy and security
 
