@@ -20,3 +20,7 @@ jobs:
         run: test -s SKILL.md && test -s agents/openai.yaml && test -s references/conversion-playbook.md
       - name: Check local Markdown links
         run: python scripts/check_links.py
+      - name: Build optional OCR toolkit
+        run: docker build -t make-pdf-editable-tools .
+      - name: Verify OCR utility is installed
+        run: docker run --rm make-pdf-editable-tools --version

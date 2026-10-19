@@ -4,6 +4,27 @@ A reusable, security-hardened Codex skill for converting PDFs into the editable 
 
 The project demonstrates structured AI-agent workflow design for document transformation, including task interpretation, tool selection, source preservation, security boundaries, and output verification.
 
+## Business Problem Solved
+
+"Make this PDF editable" can mean searchable text, fillable fields, or an editable document master. Choosing the wrong conversion loses layout or changes the source unnecessarily. This skill guides an agent through choosing the right output, preserving the original, and checking the result before delivery.
+
+## Architecture
+
+```mermaid
+flowchart TD
+    Request[User request and authorized PDF] --> Inspect[Inspect document and desired output]
+    Inspect --> Choice{Choose transformation}
+    Choice --> OCR[Searchable PDF with OCR]
+    Choice --> Form[Fillable PDF fields]
+    Choice --> Master[Editable DOCX or ODT master]
+    OCR --> Verify[Render and verify output]
+    Form --> Verify
+    Master --> Verify
+    Verify --> Deliver[Deliver separate output; preserve source]
+```
+
+This repository contains agent instructions and reference material, not an autonomous conversion API, an OCR model, or a geometry-detection engine. The installed agent and the tools available in its environment carry out the workflow. The optional container below provides local OCR utilities; it does not run Codex or implement all skill capabilities.
+
 ## What it demonstrates
 
 - Reusable Codex skill design and structured agent instructions
@@ -64,6 +85,27 @@ make-pdf-editable/
 ├── README.md
 └── LICENSE
 ```
+
+## Optional local OCR toolkit
+
+With Docker installed, build the utility image:
+
+```bash
+docker build -t make-pdf-editable-tools .
+docker run --rm make-pdf-editable-tools --version
+```
+
+For a trusted local input, create an output directory, then run OCR without modifying the original:
+
+```bash
+mkdir -p output
+docker run --rm --user "$(id -u):$(id -g)" \
+  --network none --cap-drop ALL --security-opt no-new-privileges \
+  -v "$PWD/input.pdf:/input.pdf:ro" -v "$PWD/output:/output" \
+  make-pdf-editable-tools --skip-text /input.pdf /output/searchable.pdf
+```
+
+The first build downloads operating-system packages. Mount only the input and output needed for the task. A container is not a substitute for reviewing untrusted PDFs or verifying the resulting document. Use the full skill workflow for forms or editable document conversion.
 
 ## Design principles
 
