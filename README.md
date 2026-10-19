@@ -8,11 +8,30 @@ The project demonstrates structured AI-agent workflow design for document transf
 
 "Make this PDF editable" can mean searchable text, fillable fields, or an editable document master. Choosing the wrong conversion loses layout or changes the source unnecessarily. This skill guides an agent through choosing the right output, preserving the original, and checking the result before delivery.
 
+### Persona pain points
+
+- **Operations teams:** Scanned or locked-layout documents can block search, reuse, and downstream processing.
+- **Form owners:** A visually correct PDF may still lack usable fields or a maintainable source document.
+- **Reviewers and records teams:** Conversion is risky when the original can be overwritten or the result is delivered without visual and functional checks.
+
+### Business value and ROI boundary
+
+The workflow reduces avoidable rework by choosing the output type before conversion and requiring verification before delivery. It also preserves the original as a recovery point. The repository does not claim a universal conversion time or accuracy rate because results depend on document quality, layout complexity, and the tools available to the agent.
+
+### System invariants
+
+- The source PDF is never overwritten.
+- Only documents the user is authorized to access are processed.
+- Inputs and document content are treated as untrusted data, not instructions.
+- Generated files are delivered separately and verified visually and functionally.
+- Third-party upload requires explicit authorization.
+
 ## Architecture
 
 ```mermaid
 flowchart TD
-    Request[User request and authorized PDF] --> Inspect[Inspect document and desired output]
+    Request[User request] --> Ingest[Authorized PDF ingestion]
+    Ingest --> Inspect[Inspect document and desired output]
     Inspect --> Choice{Choose transformation}
     Choice --> OCR[Searchable PDF with OCR]
     Choice --> Form[Fillable PDF fields]
@@ -21,6 +40,8 @@ flowchart TD
     Form --> Verify
     Master --> Verify
     Verify --> Deliver[Deliver separate output; preserve source]
+
+    Source[(Original PDF)] -. read-only .-> Ingest
 ```
 
 This repository contains agent instructions and reference material, not an autonomous conversion API, an OCR model, or a geometry-detection engine. The installed agent and the tools available in its environment carry out the workflow. The optional container below provides local OCR utilities; it does not run Codex or implement all skill capabilities.
